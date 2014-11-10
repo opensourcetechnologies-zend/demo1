@@ -1,0 +1,49 @@
+<!-- h1>I am in AuthDoctrine IndexController login action index.phtml</h1 -->
+<?php 
+	echo $this->headLink()->prependStylesheet($this->basePath() . '/css/custom.css');
+		
+	$user = $this->identity();
+?>
+<div class="login-page">
+<div class="login-form-wrapper">
+<?php  if (!$user) { ?>
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url('auth-doctrine/default', array('controller' => 'index', 'action' => 'login')));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo '<h3>Login</h3>';
+// echo $this->formHidden($form->get('id'));
+echo '<div class="form-group1">';
+echo $this->formRow($form->get('username'));
+echo '</div><div class="form-group1">';
+echo $this->formRow($form->get('password'));
+echo '</div><div class="form-group1 rememberme-div">';
+echo $this->formRow($form->get('rememberme'));
+echo '</div><div class="form-group1 action-btn">';
+echo $this->formSubmit($form->get('submit'));
+echo '</div>';
+?>
+
+
+<p>
+	<a href="<?php echo $this->url('auth-doctrine/default', array('controller' => 'registration', 'action' => 'index'));?>"><?php echo $this->translate('Register'); ?></a> |  
+	<a href="<?php echo $this->url('auth-doctrine/default', array('controller' => 'registration', 'action' => 'forgotten-password'));?>"><?php echo $this->translate('Forgotten Password'); ?></a>
+</p>
+<?php echo $this->form()->closeTag(); ?>
+
+<?php } ?>
+
+<?php // view helper
+    if ($user) {
+        echo 'Logged in as ' . $this->escapeHtml($user->getUsrName());
+?>		
+ | <a href="<?php echo $this->url('auth-doctrine/default', array('controller' => 'index', 'action' => 'logout'));?>"><?php echo $this->translate('Logout'); ?></a> 
+<?php
+    } else {
+        //echo 'Not logged in';
+    }
+?>
+</div>
+</div>
